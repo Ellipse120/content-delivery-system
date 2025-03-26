@@ -7,7 +7,7 @@ export default eventHandler(async (event) => {
 
   if (!v.value) {
     const clientInfo = {
-      id: globalThis.crypto.randomUUID(),
+      id,
       createdAt: new Date().toLocaleString(),
       updatedAt: new Date().toLocaleString(),
     }
