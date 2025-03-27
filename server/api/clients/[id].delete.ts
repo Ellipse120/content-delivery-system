@@ -7,5 +7,5 @@ export default eventHandler(async (event) => {
   const kv = await useKv()
   const key = ['client', id]
 
-  return await kv.get(key)
-});
+  return await kv.delete(key)
+})

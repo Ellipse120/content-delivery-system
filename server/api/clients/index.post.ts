@@ -6,7 +6,7 @@ export default eventHandler(async (event) => {
   }).parse)
 
   const clientInfo = await readValidatedBody(event, z.object({
-    id: z.string().optional().default(() => globalThis.crypto.randomUUID()),
+    id: z.string().optional().default(() => useRandomUUID()),
     createdAt: z.string().default(Date),
     updatedAt: z.string().default(Date),
   }).parse)
