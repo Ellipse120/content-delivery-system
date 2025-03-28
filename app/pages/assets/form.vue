@@ -1,10 +1,10 @@
-<script setup lang="ts">
-import type { FormSubmitEvent } from '@nuxt/ui'
-import type { z } from 'zod'
+<script setup>
+// import type { FormSubmitEvent } from '@nuxt/ui'
+// import type { z } from 'zod'
 import { parseDateTime } from '@internationalized/date'
 import { assertInfoSchema } from '#shared/zschema/index'
 
-type Schema = z.output<typeof assertInfoSchema>
+// type Schema = z.output<typeof assertInfoSchema>
 
 const toast = useToast()
 const route = useRoute()
@@ -40,7 +40,7 @@ const imgList = ref([
 ])
 
 if (id) {
-  const { data } = await useAsyncData('item', () => $fetch(`/api/assets/${id}`))
+  const { data } = await useAsyncData<AssetInfo>('item', () => $fetch(`/api/assets/${id}`))
 
   if (data.value?.value) {
     state = data.value?.value
@@ -48,7 +48,7 @@ if (id) {
   }
 }
 
-const onSubmit = async (event: FormSubmitEvent<Schema>) => {
+const onSubmit = async (event) => {
   const v = {
     ...event.data,
     expirationDate: expirationDate.value.toString()
