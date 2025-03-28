@@ -1,4 +1,4 @@
-import type { ClientInfo } from '#shared/types/types';
+import type { ClientInfo } from '#shared/types/types'
 
 export default eventHandler(async (event) => {
   const id = useRandomUUID()
@@ -8,18 +8,13 @@ export default eventHandler(async (event) => {
   const v = await kv.get(key)
 
   if (!v.value) {
-    const now = new Date().toLocaleString('en-US', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    })
+    const now = formatDate(new Date())
 
     const clientInfo: ClientInfo = {
       id,
+      location: '',
+      online: true,
+      assets: [],
       createdAt: now,
       updatedAt: now,
     }

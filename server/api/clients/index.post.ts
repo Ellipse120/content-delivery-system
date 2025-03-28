@@ -1,15 +1,12 @@
 import { z } from 'zod'
+import { clientInfoSchema } from '#shared/zschema/index'
 
 export default eventHandler(async (event) => {
   const { id } = await getValidatedRouterParams(event, z.object({
     id: z.string().length(36)
   }).parse)
 
-  const clientInfo = await readValidatedBody(event, z.object({
-    id: z.string().optional().default(() => useRandomUUID()),
-    createdAt: z.string().default(Date),
-    updatedAt: z.string().default(Date),
-  }).parse)
+  const clientInfo = await readValidatedBody(event, clientInfoSchema.parse)
 
   const kv = await useKv()
   const op = kv.atomic()

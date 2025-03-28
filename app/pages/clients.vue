@@ -1,10 +1,10 @@
 <script setup>
 const { data, refresh, status } = await useFetch('/api/clients')
 
-const loading = computed(() => status === 'pending')
+const loading = computed(() => status.value === 'pending')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
 const UButton = resolveComponent('UButton')
-const expanded = ref({ 1: true })
+const expanded = ref({ 0: true, 1: false })
 
 const handleDelete = async (id) => {
   await $fetch(`/api/clients/${id}`, {
@@ -81,6 +81,10 @@ const columns = [
 
 <template>
   <UContainer>
+    <USeparator color="primary" type="dashed" size="lg" class="text-4xl">
+      Clients Admin
+    </USeparator>
+
     <UTable
       v-model:expanded="expanded"
       :ui="{ tr: 'data-[expanded=true]:bg-(--ui-bg-elevated)/50' }"
