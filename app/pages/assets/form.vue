@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
-import { assertInfoSchema } from '#shared/zschema/index'
 import type { z } from 'zod'
+import { parseDateTime } from '@internationalized/date'
+import { assertInfoSchema } from '#shared/zschema/index'
 
 type Schema = z.output<typeof assertInfoSchema>
 
-const state = reactive<Partial<Schema>>({
+const toast = useToast()
+const route = useRoute()
+
+const id = route.query.id
+
+let state = reactive<Partial<Schema>>({
   id: '',
   name: '',
   description: '',
@@ -16,7 +22,7 @@ const state = reactive<Partial<Schema>>({
   createdAt: '',
   updatedAt: '',
 })
-const expirationDate = shallowRef()
+const expirationDate = shallowRef(formatDate(new Date()))
 const videoList = ref([
   {
     type: 'label',
@@ -32,15 +38,33 @@ const imgList = ref([
   },
   'Apple',
 ])
-const toast = useToast()
 
-const onSubmit = (event: FormSubmitEvent<Schema>) => {
+if (id) {
+  const { data } = await useAsyncData('item', () => $fetch(`/api/assets/${id}`))
+
+  if (data.value?.value) {
+    state = data.value?.value
+    expirationDate.value = parseDateTime(formatDate(data.value?.value?.expirationDate))
+  }
+}
+
+const onSubmit = async (event: FormSubmitEvent<Schema>) => {
+  const v = {
+    ...event.data,
+    expirationDate: expirationDate.value.toString()
+  }
+
+  await $fetch(id ? `/api/assets/${id}` : '/api/assets', {
+    method: id ? 'PATCH' : 'POST',
+    body: v
+  })
+
   toast.add({
     title: 'Success',
     description: 'Form Submitted',
     color: 'success',
   })
-  console.log(event.data)
+  goBack()
 }
 
 const goBack = () => {

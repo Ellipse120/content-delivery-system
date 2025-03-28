@@ -5,6 +5,8 @@ export default eventHandler(async (event) => {
     id: z.string().length(36)
   }).parse);
 
-  // todo
-  return id
+  const kv = await useKv()
+  const key = ['assets', id]
+
+  return await kv.delete(key)
 })

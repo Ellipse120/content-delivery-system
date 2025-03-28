@@ -1,13 +1,7 @@
-export const formatDate = (date: Date| string | number) => {
-  const v = new Date(date)
+import { format } from 'date-fns'
 
-  return v.toLocaleString('en-US', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  })
+export const formatDate = (date: Date | string | number, formatter = 'yyyy-MM-dd\'T\'HH:mm:ss') => {
+  // const v = new Date(date)
+
+  return format(date, formatter)
 }

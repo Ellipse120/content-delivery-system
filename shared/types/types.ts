@@ -1,4 +1,5 @@
 import type { KvService } from '@deno/kv'
+import type { DateValue } from '@internationalized/date'
 
 declare global {
   // eslint-disable-next-line no-var
