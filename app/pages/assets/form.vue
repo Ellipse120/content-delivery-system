@@ -11,7 +11,7 @@ const route = useRoute()
 
 const id = route.query.id
 
-let state = reactive<Partial<Schema>>({
+let state = reactive({
   id: '',
   name: '',
   description: '',
@@ -40,7 +40,7 @@ const imgList = ref([
 ])
 
 if (id) {
-  const { data } = await useAsyncData<AssetInfo>('item', () => $fetch(`/api/assets/${id}`))
+  const { data } = await useAsyncData('item', () => $fetch(`/api/assets/${id}`))
 
   if (data.value?.value) {
     state = data.value?.value

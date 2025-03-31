@@ -13,6 +13,13 @@ const handleDelete = async (id) => {
   await refresh()
 }
 
+const handleSendAssets = async (id, payload) => {
+  await $fetch(`/api/clients/sse/${id}`, {
+    method: 'POST',
+    body: payload
+  })
+}
+
 const columns = [
   {
     id: 'expand',
@@ -51,6 +58,16 @@ const columns = [
       const items = [
         [
           { label: 'Goto', icon: 'i-lucide-link', to: `/${row.getValue('value').id}` }
+        ],
+        [
+          {
+            label: 'Send Test Data',
+            color: 'secondary',
+            icon: 'i-lucide-send',
+            async onSelect() {
+              await handleSendAssets(row.getValue('value').id, { test: Date.now() })
+            }
+          }
         ],
         [
           {
