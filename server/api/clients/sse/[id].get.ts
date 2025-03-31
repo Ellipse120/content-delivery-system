@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
             return
           }
 
-          const m = { x: Date.now() }
+          const m = (await kv.get(key)).value
           const chunk = `data: ${JSON.stringify(m)}\n\n`
           controller.enqueue(new TextEncoder().encode(chunk))
         } catch (e) {

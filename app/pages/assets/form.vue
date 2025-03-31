@@ -67,6 +67,16 @@ const onSubmit = async (event) => {
   goBack()
 }
 
+const onCreateVideo = (item) => {
+  videoList.value.push(item)
+  state.videoUrl = [...state.videoUrl, item]
+}
+
+const onCreateImg = (item) => {
+  imgList.value.push(item)
+  state.imgUrl = [...state.imgUrl, item]
+}
+
 const goBack = () => {
   navigateTo('/assets')
 }
@@ -93,11 +103,25 @@ const goBack = () => {
       </UFormField>
 
       <UFormField label="Video" name="videoUrl">
-        <USelectMenu v-model="state.videoUrl" multiple :items="videoList" class="w-48" />
+        <USelectMenu
+          v-model="state.videoUrl"
+          multiple
+          create-item
+          :items="videoList"
+          class="w-48"
+          @create="onCreateVideo"
+        />
       </UFormField>
 
       <UFormField label="Image" name="imgUrl">
-        <USelectMenu v-model="state.imgUrl" multiple :items="imgList" class="w-48" />
+        <USelectMenu
+          v-model="state.imgUrl"
+          multiple
+          create-item
+          :items="imgList"
+          class="w-48"
+          @create="onCreateImg"
+         />
       </UFormField>
 
       <UFormField label="Expiration Date" name="expirationDate">

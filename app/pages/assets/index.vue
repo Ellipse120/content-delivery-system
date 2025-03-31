@@ -85,8 +85,11 @@ const doAdd = () => {
       Assets Admin
     </USeparator>
 
-    <UButton @click="doAdd">Add New Asset</UButton>
-
+    <div class="flex gap-4">
+      <UButton color="warning" @click="navigateTo('/clients')">Go To Clients</UButton>
+      <UButton @click="doAdd">Add New Asset</UButton>
+    </div>
+    
     <UTable
       :data="data"
       :columns="columns"
