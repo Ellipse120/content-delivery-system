@@ -15,8 +15,8 @@ let state = reactive({
   id: '',
   name: '',
   description: '',
-  videoUrl: [],
-  imgUrl: [],
+  videoUrl: '',
+  imgUrl: '',
   expirationDate: undefined,
   valid: true,
   createdAt: '',
@@ -69,12 +69,12 @@ const onSubmit = async (event) => {
 
 const onCreateVideo = (item) => {
   videoList.value.push(item)
-  state.videoUrl = [...state.videoUrl, item]
+  state.videoUrl = item
 }
 
 const onCreateImg = (item) => {
   imgList.value.push(item)
-  state.imgUrl = [...state.imgUrl, item]
+  state.imgUrl = item
 }
 
 const goBack = () => {
@@ -101,11 +101,10 @@ const goBack = () => {
       <UFormField label="Description" name="description">
         <UTextarea v-model="state.description" />
       </UFormField>
-
+      
       <UFormField label="Video" name="videoUrl">
         <USelectMenu
           v-model="state.videoUrl"
-          multiple
           create-item
           :items="videoList"
           class="w-48"
@@ -116,7 +115,6 @@ const goBack = () => {
       <UFormField label="Image" name="imgUrl">
         <USelectMenu
           v-model="state.imgUrl"
-          multiple
           create-item
           :items="imgList"
           class="w-48"

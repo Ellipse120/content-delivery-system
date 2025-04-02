@@ -1,6 +1,4 @@
 import type { KvService } from '@deno/kv'
-import type { DateValue } from '@internationalized/date'
-
 declare global {
   // eslint-disable-next-line no-var
   var Deno: KvService
@@ -20,8 +18,8 @@ export type AssetInfo = {
   id: string
   name: string
   description?: string | null
-  videoUrl?: string[]
-  imgUrl?: string[]
+  videoUrl?: string
+  imgUrl?: string
   expirationDate?: Date | string
   valid: boolean
   createdAt: Date | string | null

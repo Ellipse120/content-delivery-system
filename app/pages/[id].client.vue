@@ -21,6 +21,21 @@ const getAssetsInfo = async (ids) => {
   const p = await Promise.all(ids.map((id) => $fetch(`/api/assets/${id}`)))
 
   assets.value = p.map(o => o.value)
+
+  assets.value.forEach(asset => {
+      const videoRef = useTemplateRef(`videoRef-${asset.id}`)
+      if (!videoRef.value) return
+      //todo: control video playing  and carousel state
+      const { playing, ended } = useMediaControls(videoRef, {
+        src: asset.videoUrl,
+      })
+
+      console.log(playing.value, ended.value)
+
+      // watchEffect(() => {
+
+      // })
+    })
 }
 
 watch(
@@ -46,28 +61,15 @@ onMounted(() => {
 
     <UCarousel
       v-slot="{ item }"
-      :items="assets" 
+      :items="assets"
       loop
       arrows
       dots
       :autoplay="{ delay: 5000 }"
       class="w-full max-w-xs mx-auto"
     >
-      <!-- TODO: Carousel Video -->
-      <video width="320" height="240" controls autoplay>
-        <source :src="item.videoUrl" :alt="`${item.description}-${item.name}`">
-        Your browser does not support the video tag.
-      </video>
-    </UCarousel>
+      <video :ref="`videoRef-${item.id}`" controls autoplay :src="item.videoUrl" :alt="`${item.description}-${item.name}`" />
 
-    <UCarousel 
-      v-slot="{ item }"
-      :items="assets" 
-      loop
-      dots
-      :autoplay="{ delay: 2000 }"
-      class="w-full max-w-xs mx-auto"
-    >
       <img :src="item.imgUrl" :alt="`${item.description}-${item.name}`" width="320" height="320" class="rounded-lg">
     </UCarousel>
   </UContainer>
