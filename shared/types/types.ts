@@ -25,3 +25,10 @@ export type AssetInfo = {
   createdAt: Date | string | null
   updatedAt: Date | string | null
 }
+
+export type FileInfo = {
+  id: string
+  filename: string
+  path: string
+  createdAt: string
+}
