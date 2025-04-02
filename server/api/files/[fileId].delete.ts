@@ -2,8 +2,7 @@ import { unlink, readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { z } from 'zod'
 
-const appConfig = useAppConfig()
-const UPLOAD_DIR = join(process.cwd(), appConfig.UPLOAD_DIR)
+const UPLOAD_DIR = getUploadFoler()
 
 export default defineEventHandler(async (event) => {
   const { fileId } = await getValidatedRouterParams(event, z.object({
