@@ -22,5 +22,5 @@ export default eventHandler(async (event) => {
     await kv.set(key, clientInfo)
   }
 
-  return sendRedirect(event, `/${id}`)
+  return sendRedirect(event, `clients/${id}`)
 })
