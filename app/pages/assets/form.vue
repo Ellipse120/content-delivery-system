@@ -22,7 +22,7 @@ let state = reactive({
   createdAt: '',
   updatedAt: '',
 })
-const expirationDate = shallowRef(formatDate(new Date()))
+const expirationDate = shallowRef()
 const videoList = ref([
   {
     type: 'label',
@@ -80,6 +80,10 @@ const onCreateImg = (item) => {
 const goBack = () => {
   navigateTo('/assets')
 }
+
+onMounted(() => {
+  expirationDate.value = formatDate(new Date())
+})
 </script>
 
 <template>

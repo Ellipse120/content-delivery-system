@@ -73,10 +73,6 @@ function getDropdownActions(asset: AssetInfo): DropdownMenuItem[][] {
     ]
   ]
 }
-
-const doAdd = () => {
-  navigateTo('/assets/form')
-}
 </script>
 
 <template>
@@ -87,7 +83,7 @@ const doAdd = () => {
 
     <div class="flex gap-4">
       <UButton color="warning" @click="navigateTo('/clients')">Go To Clients</UButton>
-      <UButton @click="doAdd">Add New Asset</UButton>
+      <UButton @click="navigateTo('/assets/form')">Add New Asset</UButton>
     </div>
     
     <UTable
