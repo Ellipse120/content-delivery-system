@@ -17,7 +17,6 @@ export default defineNuxtConfig({
     fonts: false
   },
 
-
   future: {
     compatibilityVersion: 4
   },
