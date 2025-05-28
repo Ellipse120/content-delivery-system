@@ -1,7 +1,14 @@
 <script setup>
-const toast = useToast()
+import { getPaginationRowModel } from '@tanstack/vue-table'
 
+const toast = useToast()
+const table = useTemplateRef('table')
 const { data, refresh, status } = await useFetch('/api/clients')
+const pagination = ref({
+  pageIndex: 0,
+  pageSize: 10
+})
+
 const { data: assets } = await useFetch('/api/assets', {
   transform: (value) => value.map(o => o.value)
 })
@@ -67,6 +74,14 @@ const columns = [
   {
     accessorKey: 'versionstamp',
     header: '# Versionstamp'
+  },
+  {
+    accessorKey: 'value.createdAt',
+    header: 'Created At'
+  },
+  {
+    accessorKey: 'value.updatedAt',
+    header: 'Updated At'
   },
   {
     id: 'actions',
@@ -206,14 +221,22 @@ const onClientSelect = (row) => {
       Clients Admin
     </USeparator>
 
-    <UButton @click="navigateTo('/assets')">Go To Assets</UButton>
+    <div class="flex gap-4">
+      <UButton @click="navigateTo('/assets')">Go To Assets</UButton>
+      <UButton color="warning" @click="refresh()">Refresh Assets</UButton>
+    </div>
 
     <UTable
+      ref="table"
       v-model:expanded="expanded"
+      v-model:pagination="pagination"
       :ui="{ tr: 'data-[expanded=true]:bg-(--ui-bg-elevated)/50' }"
       :data="data"
       :columns="columns"
       :loading="loading"
+      :pagination-options="{
+        getPaginationRowModel: getPaginationRowModel()
+      }"
       @select="onClientSelect"
     >
       <template #expanded="{ row }">
@@ -223,6 +246,15 @@ const onClientSelect = (row) => {
         <span>{{ row.original.value.id }}</span>
       </template>
     </UTable>
+
+    <div class="flex justify-center border-t border-default pt-4">
+      <UPagination
+        :default-page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
+        :items-per-page="table?.tableApi?.getState().pagination.pageSize"
+        :total="table?.tableApi?.getFilteredRowModel().rows.length"
+        @update:page="(p) => table?.tableApi?.setPageIndex(p - 1)"
+      />
+    </div>
 
     <UModal v-model:open="assetsModal" title="Assets Selection">
       <template #body>
