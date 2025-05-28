@@ -1,8 +1,9 @@
 import { join } from 'node:path'
 import { existsSync } from 'node:fs'
+import { randomUUID } from 'uncrypto'
 
 export const useRandomUUID = () => {
-  return globalThis.crypto.randomUUID()
+  return randomUUID()
 }
 
 export const getUploadFoler = () => {
