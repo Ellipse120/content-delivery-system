@@ -40,7 +40,7 @@ const items = ref<NavigationMenuItem[][]>([
       Main Page
     </USeparator>
 
-    <UButton @click="navigateTo('/demo/ollama-chat')">To Demo Page</UButton>
+    <UButton @click="navigateTo('/demo/ollama-chat')">To Local Ollama Chat Demo Page</UButton>
   </UContainer>
 </template>
 
