@@ -14,6 +14,10 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    dingdingWebhooksAccessToken: ''
+  },
+
   ui: {
     fonts: false
   },

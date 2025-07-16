@@ -1,10 +1,51 @@
 /**
- * 查找2073可否预约, 并发送钉钉消息推送
+ * 查找医生Code-2073可否预约, 并发送钉钉消息推送
  *  */ 
 
 type R = {
   msg: string,
   remainNum: number
+}
+
+type SchedulingTypeItemDetail = {
+  scheduleId: string,
+  startTime: string,
+  endTime: string,
+  amount: string,
+  remainNum: number,
+  address: string,
+  extendParam: string,
+  timeRange: string,
+  departmentCode: string,
+  departmentName: string,
+  secondDepartmentCode: string,
+  secondDepartmentName: string,
+  showAppointmentAlternateFlag: unknown,
+  scheduleResourceTags: []
+}
+
+type SchedulingType = {
+  scheduleType: string,
+  scheduleTypeName: string,
+  detailList: SchedulingTypeItemDetail[]
+}
+
+type BranchItem = {
+    branchCode: string,
+    branchName: string,
+    branchAddress: string,
+    haveSourceNumber: boolean,
+    schedulingTypeList: SchedulingType[]
+  }
+
+type ResponseItemFromUnknown = {
+  scheduleDate: string,
+  branchList: BranchItem[]
+}
+
+type ResponseFromUnknown = {
+  data?: ResponseItemFromUnknown[],
+  msg?: string,
 }
 
 const sendNotifyToDingTalk = async (data: R) => {
@@ -30,12 +71,14 @@ const header1 = {
   "sec-fetch-mode": "cors",
   "sec-fetch-site": "same-origin",
   "timestamp": "1751596212586",
-  "token": "69dc9e1ead7a4190b939c306ca375029",
+  "token": "1636c6f45de343cc8f72f6ef6cb19b88",
   "user-traceid": "175159621258699883571",
   "cookie": "acw_tc=0a47329a17515960565847106e007a9013598d2ed59889221bb519cab566f5",
   "Referer": "https://h5.wdjky.com/healthcloud-smart-service-vue3/outpatient/appointment/schedule?channelCode=210101&hospitalId=b535012fb265470283f4dffcbafaff64&showBottom=home&branchCode=10001&secondDeptCode=3300&resourceType=1&resourceCode=2073&scheduleType=1&scheduleTypeCodeList=7&v=20250701173224&code=041BZ50w38Glb53Fht2w3RXQiY0BZ50f",
   "Referrer-Policy": "strict-origin-when-cross-origin"
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const header2 = {
   "accept": "application/json, text/plain, */*",
   "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
@@ -71,6 +114,8 @@ const body1 =  {
   "userFamilyId": "",
   "medicalCardId": ""
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const body2 = {
   "channelCode": "210101",
   "hospitalId": "b535012fb265470283f4dffcbafaff64",
@@ -89,7 +134,7 @@ const body2 = {
 }
 
 export default defineEventHandler(async () => {
-  const r = await $fetch('https://h5.wdjky.com/gw/palm-hospital-appointment-resource-scheduling-list', {
+  const r: ResponseFromUnknown = await $fetch('https://h5.wdjky.com/gw/palm-hospital-appointment-resource-scheduling-list', {
     method: 'post',
     headers: header1,
     body: body1,
@@ -104,13 +149,12 @@ export default defineEventHandler(async () => {
     return {
       msg: r.msg || '接口出错了'
     }
-  } 
+  }
 
-  const targetResponse = r?.data?.find(i => i.scheduleDate === targetDate)?.branchList
-  const [morning, afternoon] = targetResponse?.[0]?.schedulingTypeList?.[0]?.detailList
+  const targetResponse: BranchItem[] = r?.data?.find((i: ResponseItemFromUnknown) => i.scheduleDate === targetDate)?.branchList || []
+  const [morning, afternoon] = targetResponse[0].schedulingTypeList[0].detailList
   const isMorningAvailable = morning?.remainNum > 0
   const isAfternoonAvailable = afternoon?.remainNum > 0
-
 
   if (isMorningAvailable) {
     const r = { msg: '上午可约', remainNum: morning?.remainNum }
