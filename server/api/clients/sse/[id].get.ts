@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
   const { id } = await getValidatedRouterParams(event, z.object({
-    id: z.string().length(36)
+    id: z.string().length(36),
   }).parse)
 
   // watch kv collection changes, then send stream
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const body = new ReadableStream({
     async start(controller) {
       while (true) {
-        try { 
+        try {
           if ((await stream.read()).done) {
             return
           }
@@ -23,14 +23,15 @@ export default defineEventHandler(async (event) => {
           const m = (await kv.get(key)).value
           const chunk = `data: ${JSON.stringify(m)}\n\n`
           controller.enqueue(new TextEncoder().encode(chunk))
-        } catch (e) {
+        }
+        catch (e) {
           console.error(`Error: ${id}`, e)
         }
       }
     },
     cancel() {
       stream.cancel()
-    }
+    },
   })
 
   return sendStream(event, body)

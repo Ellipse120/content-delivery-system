@@ -6,11 +6,11 @@ const table = useTemplateRef('table')
 const { data, refresh, status } = await useFetch('/api/clients')
 const pagination = ref({
   pageIndex: 0,
-  pageSize: 10
+  pageSize: 10,
 })
 
 const { data: assets } = await useFetch('/api/assets', {
-  transform: (value) => value.map(o => o.value)
+  transform: value => value.map(o => o.value),
 })
 
 const UDropdownMenu = resolveComponent('UDropdownMenu')
@@ -40,7 +40,7 @@ const handleDelete = async (id) => {
 const handleSendAssets = async (id, payload) => {
   await $fetch(`/api/clients/sse/${id}`, {
     method: 'POST',
-    body: payload
+    body: payload,
   })
 }
 
@@ -55,12 +55,12 @@ const columns = [
         ui: {
           leadingIcon: [
             'transition-transform',
-            row.getIsExpanded() ? 'duration-200 rotate-180' : ''
-          ]
+            row.getIsExpanded() ? 'duration-200 rotate-180' : '',
+          ],
         },
-        onClick: () => row.toggleExpanded()
+        onClick: () => row.toggleExpanded(),
       })
-    }
+    },
   },
   {
     accessorKey: 'key',
@@ -69,19 +69,19 @@ const columns = [
   },
   {
     accessorKey: 'value',
-    header: 'Value'
+    header: 'Value',
   },
   {
     accessorKey: 'versionstamp',
-    header: '# Versionstamp'
+    header: '# Versionstamp',
   },
   {
     accessorKey: 'value.createdAt',
-    header: 'Created At'
+    header: 'Created At',
   },
   {
     accessorKey: 'value.updatedAt',
-    header: 'Updated At'
+    header: 'Updated At',
   },
   {
     id: 'actions',
@@ -89,7 +89,7 @@ const columns = [
     cell: ({ row }) => {
       const items = [
         [
-          { label: 'Goto', icon: 'i-lucide-link', to: `/${row.getValue('value').id}` }
+          { label: 'Goto', icon: 'i-lucide-link', to: `/${row.getValue('value').id}` },
         ],
         [
           {
@@ -98,8 +98,8 @@ const columns = [
             icon: 'i-lucide-send',
             async onSelect() {
               await handleSendAssets(row.getValue('value').id, { test: Date.now() })
-            }
-          }
+            },
+          },
         ],
         [
           {
@@ -109,8 +109,8 @@ const columns = [
             async onSelect() {
               assetsModal.value = !assetsModal.value
               toWhichClients.value = row.getValue('value').id
-            }
-          }
+            },
+          },
         ],
         [
           {
@@ -119,8 +119,8 @@ const columns = [
             icon: 'i-lucide-trash',
             async onSelect() {
               await handleDelete(row.getValue('value').id)
-            }
-          }
+            },
+          },
         ],
       ]
 
@@ -131,10 +131,10 @@ const columns = [
         'color': 'neutral',
         'variant': 'ghost',
         'class': 'ml-auto',
-        'aria-label': 'Actions dropdown'
+        'aria-label': 'Actions dropdown',
       })))
-    }
-  }
+    },
+  },
 ]
 
 const assetsModal = ref(false)
@@ -143,55 +143,56 @@ defineShortcuts({
   a: () => {
     if (toWhichClients.value) {
       assetsModal.value = !assetsModal.value
-    } else {
+    }
+    else {
       toast.add({
         title: 'Need Client Info',
         color: 'info',
-        icon: 'i-lucide-info'
+        icon: 'i-lucide-info',
       })
     }
-  }
+  },
 })
 const assetsSelection = ref()
 const assetsColumns = [
-{
+  {
     id: 'select',
     header: ({ table }) =>
       h(UCheckbox, {
-        modelValue: table.getIsSomePageRowsSelected()
+        'modelValue': table.getIsSomePageRowsSelected()
           ? 'indeterminate'
           : table.getIsAllPageRowsSelected(),
-        'onUpdate:modelValue': (value) =>
+        'onUpdate:modelValue': value =>
           table.toggleAllPageRowsSelected(!!value),
-        'aria-label': 'Select all'
+        'aria-label': 'Select all',
       }),
     cell: ({ row }) =>
       h(UCheckbox, {
-        modelValue: row.getIsSelected(),
-        'onUpdate:modelValue': (value) => row.toggleSelected(!!value),
-        'aria-label': 'Select row'
-      })
+        'modelValue': row.getIsSelected(),
+        'onUpdate:modelValue': value => row.toggleSelected(!!value),
+        'aria-label': 'Select row',
+      }),
   },
   {
     accessorKey: 'name',
-    header: 'Name'
+    header: 'Name',
   },
   {
     accessorKey: 'description',
-    header: 'Description'
+    header: 'Description',
   },
   {
     accessorKey: 'valid',
-    header: 'Valid Status'
+    header: 'Valid Status',
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At'
+    header: 'Created At',
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At'
-  }
+    header: 'Updated At',
+  },
 ]
 
 const confirmSendAssets = async () => {
@@ -199,13 +200,13 @@ const confirmSendAssets = async () => {
 
   await $fetch(`/api/clients/sse/${toWhichClients.value}`, {
     method: 'POST',
-    body: Object.keys(assetsSelection.value)
+    body: Object.keys(assetsSelection.value),
   })
 
   toast.add({
     title: 'Sent to Client',
     color: 'success',
-    icon: 'i-lucide-list-checks'
+    icon: 'i-lucide-list-checks',
   })
   assetsModal.value = false
 }
@@ -217,13 +218,25 @@ const onClientSelect = (row) => {
 
 <template>
   <UContainer>
-    <USeparator color="primary" type="dashed" size="lg" class="text-4xl">
+    <USeparator
+      color="primary"
+      type="dashed"
+      size="lg"
+      class="text-4xl"
+    >
       Clients Admin
     </USeparator>
 
     <div class="flex gap-4">
-      <UButton @click="navigateTo('/assets')">Go To Assets</UButton>
-      <UButton color="warning" @click="refresh()">Refresh Assets</UButton>
+      <UButton @click="navigateTo('/assets')">
+        Go To Assets
+      </UButton>
+      <UButton
+        color="warning"
+        @click="refresh()"
+      >
+        Refresh Assets
+      </UButton>
     </div>
 
     <UTable
@@ -235,7 +248,7 @@ const onClientSelect = (row) => {
       :columns="columns"
       :loading="loading"
       :pagination-options="{
-        getPaginationRowModel: getPaginationRowModel()
+        getPaginationRowModel: getPaginationRowModel(),
       }"
       @select="onClientSelect"
     >
@@ -256,7 +269,10 @@ const onClientSelect = (row) => {
       />
     </div>
 
-    <UModal v-model:open="assetsModal" title="Assets Selection">
+    <UModal
+      v-model:open="assetsModal"
+      title="Assets Selection"
+    >
       <template #body>
         <div>
           <UTable
@@ -269,8 +285,17 @@ const onClientSelect = (row) => {
       </template>
 
       <template #footer>
-        <UButton label="Cancel" color="neutral" variant="outline" @click="assetsModal = false" />
-        <UButton label="Submit" color="neutral" @click="confirmSendAssets" />
+        <UButton
+          label="Cancel"
+          color="neutral"
+          variant="outline"
+          @click="assetsModal = false"
+        />
+        <UButton
+          label="Submit"
+          color="neutral"
+          @click="confirmSendAssets"
+        />
       </template>
     </UModal>
   </UContainer>

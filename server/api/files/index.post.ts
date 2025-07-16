@@ -1,4 +1,3 @@
-
 import { writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
@@ -13,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const file = formData[0]
   const fileId = useRandomUUID()
-  const ext = file.filename?.split(".").pop() || ""
+  const ext = file.filename?.split('.').pop() || ''
   const filename = `${fileId}.${ext}`
 
   await writeFile(join(getUploadFoler(), filename), file.data)

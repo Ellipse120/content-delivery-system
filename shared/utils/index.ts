@@ -5,4 +5,3 @@ export const formatDate = (date: Date | string | number, formatter = 'yyyy-MM-dd
 
   return format(date, formatter)
 }
-

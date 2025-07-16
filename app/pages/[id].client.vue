@@ -8,10 +8,10 @@ const assets = ref([])
 async function handleSse() {
   const eventSource = new EventSource(`/api/clients/sse/${id}`)
 
-  eventSource.onmessage = (event) => {    
+  eventSource.onmessage = (event) => {
     toast.add({
       title: 'Success!',
-      description: `Got sse response: ${event.data}`
+      description: `Got sse response: ${event.data}`,
     })
     assetIds.value = JSON.parse(event.data)
     
@@ -19,24 +19,24 @@ async function handleSse() {
 }
 
 const getAssetsInfo = async (ids) => {
-  const p = await Promise.all(ids.map((id) => $fetch(`/api/assets/${id}`)))
+  const p = await Promise.all(ids.map(id => $fetch(`/api/assets/${id}`)))
 
   assets.value = p.map(o => o.value)
 
-  assets.value.forEach(asset => {
-      const videoRef = useTemplateRef(`videoRef-${asset.id}`)
-      if (!videoRef.value) return
-      //todo: control video playing  and carousel state
-      const { playing, ended } = useMediaControls(videoRef, {
-        src: asset.videoUrl,
-      })
-
-      console.log(playing.value, ended.value)
-
-      // watchEffect(() => {
-
-      // })
+  assets.value.forEach((asset) => {
+    const videoRef = useTemplateRef(`videoRef-${asset.id}`)
+    if (!videoRef.value) return
+    // todo: control video playing  and carousel state
+    const { playing, ended } = useMediaControls(videoRef, {
+      src: asset.videoUrl,
     })
+
+    console.log(playing.value, ended.value)
+
+    // watchEffect(() => {
+
+    // })
+  })
 }
 
 watch(
@@ -45,8 +45,8 @@ watch(
     await getAssetsInfo(value)
   },
   {
-    deep: true
-  }
+    deep: true,
+  },
 )
 
 onMounted(() => {
@@ -55,9 +55,13 @@ onMounted(() => {
 </script>
 
 <template>
-   <UContainer>
-    <USeparator color="primary" type="dashed" size="lg">
-      Client Of {{id }}
+  <UContainer>
+    <USeparator
+      color="primary"
+      type="dashed"
+      size="lg"
+    >
+      Client Of {{ id }}
     </USeparator>
 
     <UCarousel
@@ -69,9 +73,21 @@ onMounted(() => {
       :autoplay="{ delay: 5000 }"
       class="w-full max-w-xs mx-auto"
     >
-      <video :ref="`videoRef-${item.id}`" controls autoplay :src="item.videoUrl" :alt="`${item.description}-${item.name}`" />
+      <video
+        :ref="`videoRef-${item.id}`"
+        controls
+        autoplay
+        :src="item.videoUrl"
+        :alt="`${item.description}-${item.name}`"
+      />
 
-      <img :src="item.imgUrl" :alt="`${item.description}-${item.name}`" width="320" height="320" class="rounded-lg">
+      <img
+        :src="item.imgUrl"
+        :alt="`${item.description}-${item.name}`"
+        width="320"
+        height="320"
+        class="rounded-lg"
+      >
     </UCarousel>
   </UContainer>
 </template>

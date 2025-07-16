@@ -14,7 +14,11 @@
 
       <template #footer>
         <NuxtLink to="/">
-          <UButton color="primary" icon="i-lucide-arrow-left" variant="subtle">
+          <UButton
+            color="primary"
+            icon="i-lucide-arrow-left"
+            variant="subtle"
+          >
             Back To Home Page
           </UButton>
         </NuxtLink>

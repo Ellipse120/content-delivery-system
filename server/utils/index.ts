@@ -18,14 +18,15 @@ export const getFileInfo = (filename: string): FileInfo | null => {
   try {
     const stats = existsSync(join(UPLOAD_DIR, filename))
     if (!stats) return null
-    
+
     return {
       id: filename.split('.')[0]!,
       filename,
       path: `${UPLOAD_DIR}/${filename}`,
-      createdAt: formatDate(new Date())
+      createdAt: formatDate(new Date()),
     }
-  } catch {
+  }
+  catch {
     return null
   }
 }

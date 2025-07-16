@@ -26,7 +26,7 @@ const expirationDate = shallowRef()
 const videoList = ref([
   {
     type: 'label',
-    label: 'Fruits'
+    label: 'Fruits',
   },
   'Apple',
   'Samsung',
@@ -34,7 +34,7 @@ const videoList = ref([
 const imgList = ref([
   {
     type: 'label',
-    label: 'Fruits'
+    label: 'Fruits',
   },
   'Apple',
 ])
@@ -51,12 +51,12 @@ if (id) {
 const onSubmit = async (event) => {
   const v = {
     ...event.data,
-    expirationDate: expirationDate.value.toString()
+    expirationDate: expirationDate.value.toString(),
   }
 
   await $fetch(id ? `/api/assets/${id}` : '/api/assets', {
     method: id ? 'PATCH' : 'POST',
-    body: v
+    body: v,
   })
 
   toast.add({
@@ -88,7 +88,12 @@ onMounted(() => {
 
 <template>
   <UContainer>
-    <USeparator color="primary" type="dashed" size="lg" class="text-4xl">
+    <USeparator
+      color="primary"
+      type="dashed"
+      size="lg"
+      class="text-4xl"
+    >
       Assets Manage
     </USeparator>
 
@@ -98,15 +103,24 @@ onMounted(() => {
       class="gap-4 flex flex-col"
       @submit="onSubmit"
     >
-      <UFormField label="Name" name="name">
+      <UFormField
+        label="Name"
+        name="name"
+      >
         <UInput v-model="state.name" />
       </UFormField>
 
-      <UFormField label="Description" name="description">
+      <UFormField
+        label="Description"
+        name="description"
+      >
         <UTextarea v-model="state.description" />
       </UFormField>
-      
-      <UFormField label="Video" name="videoUrl">
+
+      <UFormField
+        label="Video"
+        name="videoUrl"
+      >
         <USelectMenu
           v-model="state.videoUrl"
           create-item
@@ -116,19 +130,29 @@ onMounted(() => {
         />
       </UFormField>
 
-      <UFormField label="Image" name="imgUrl">
+      <UFormField
+        label="Image"
+        name="imgUrl"
+      >
         <USelectMenu
           v-model="state.imgUrl"
           create-item
           :items="imgList"
           class="w-48"
           @create="onCreateImg"
-         />
+        />
       </UFormField>
 
-      <UFormField label="Expiration Date" name="expirationDate">
+      <UFormField
+        label="Expiration Date"
+        name="expirationDate"
+      >
         <UPopover>
-          <UButton color="neutral" variant="subtle" icon="i-lucide-calendar">
+          <UButton
+            color="neutral"
+            variant="subtle"
+            icon="i-lucide-calendar"
+          >
             {{ expirationDate ? formatDate(expirationDate) : 'Select a date' }}
           </UButton>
 
@@ -138,13 +162,26 @@ onMounted(() => {
         </UPopover>
       </UFormField>
 
-      <UFormField label="Valid Status" name="valid">
-        <USwitch v-model="state.valid" :label="state.valid ? 'valid' : 'invalid'" />
+      <UFormField
+        label="Valid Status"
+        name="valid"
+      >
+        <USwitch
+          v-model="state.valid"
+          :label="state.valid ? 'valid' : 'invalid'"
+        />
       </UFormField>
 
       <div class="flex gap-4 w-60">
-        <UButton type="submit">Submit</UButton>
-        <UButton color="neutral" @click="goBack">Back</UButton>
+        <UButton type="submit">
+          Submit
+        </UButton>
+        <UButton
+          color="neutral"
+          @click="goBack"
+        >
+          Back
+        </UButton>
       </div>
     </UForm>
   </UContainer>

@@ -18,11 +18,11 @@ const items = ref<NavigationMenuItem[][]>([
           label: 'Assets Page',
           description: 'Manage All Assets, including ads image and video link',
           icon: 'i-lucide-cloud-download',
-          to: '/assets'
+          to: '/assets',
         },
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 ])
 </script>
 
@@ -36,11 +36,18 @@ const items = ref<NavigationMenuItem[][]>([
       trailing-icon="i-lucide-arrow-down"
       class="data-[orientation=horizontal]:border-b border-(--ui-border) data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-48"
     />
-    <USeparator color="primary" type="dashed" size="lg" class="text-4xl">
+    <USeparator
+      color="primary"
+      type="dashed"
+      size="lg"
+      class="text-4xl"
+    >
       Main Page
     </USeparator>
 
-    <UButton @click="navigateTo('/demo/ollama-chat')">To Local Ollama Chat Demo Page</UButton>
+    <UButton @click="navigateTo('/demo/ollama-chat')">
+      To Local Ollama Chat Demo Page
+    </UButton>
   </UContainer>
 </template>
 

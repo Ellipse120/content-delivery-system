@@ -1,9 +1,9 @@
+import { readdir } from 'node:fs/promises'
 import { z } from 'zod'
-import {  readdir } from 'node:fs/promises'
 
 export default defineEventHandler(async (event) => {
   const { fileId } = await getValidatedRouterParams(event, z.object({
-    fileId: z.string().length(36)
+    fileId: z.string().length(36),
   }).parse)
 
   const files = await readdir(getUploadFoler())

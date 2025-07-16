@@ -4,7 +4,7 @@ import type { TableColumn, DropdownMenuItem } from '@nuxt/ui'
 const toast = useToast()
 
 const { data, status, refresh } = await useFetch('/api/assets', {
-  transform: (value) => value.map(o => o.value)
+  transform: value => value.map(o => o.value),
 })
 
 const loading = computed(() => status.value === 'pending')
@@ -12,27 +12,27 @@ const loading = computed(() => status.value === 'pending')
 const columns: TableColumn<AssetInfo>[] = [
   {
     accessorKey: 'name',
-    header: 'Name'
+    header: 'Name',
   },
   {
     accessorKey: 'description',
-    header: 'Description'
+    header: 'Description',
   },
   {
     accessorKey: 'valid',
-    header: 'Valid Status'
+    header: 'Valid Status',
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At'
+    header: 'Created At',
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At'
+    header: 'Updated At',
   },
   {
-    id: 'action'
-  }
+    id: 'action',
+  },
 ]
 
 function getDropdownActions(asset: AssetInfo): DropdownMenuItem[][] {
@@ -46,10 +46,10 @@ function getDropdownActions(asset: AssetInfo): DropdownMenuItem[][] {
           toast.add({
             title: 'Asset ID copied to clipboard!',
             color: 'success',
-            icon: 'i-lucide-circle-check'
+            icon: 'i-lucide-circle-check',
           })
-        }
-      }
+        },
+      },
     ],
     [
       {
@@ -57,7 +57,7 @@ function getDropdownActions(asset: AssetInfo): DropdownMenuItem[][] {
         icon: 'i-lucide-edit',
         onSelect: () => {
           navigateTo(`/assets/form?id=${asset.id}`)
-        }
+        },
       },
       {
         label: 'Delete',
@@ -65,27 +65,39 @@ function getDropdownActions(asset: AssetInfo): DropdownMenuItem[][] {
         color: 'error',
         onSelect: async () => {
           await $fetch(`/api/assets/${asset.id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
           })
           await refresh()
-        }
-      }
-    ]
+        },
+      },
+    ],
   ]
 }
 </script>
 
 <template>
   <UContainer>
-    <USeparator color="primary" type="dashed" size="lg" class="text-4xl">
+    <USeparator
+      color="primary"
+      type="dashed"
+      size="lg"
+      class="text-4xl"
+    >
       Assets Admin
     </USeparator>
 
     <div class="flex gap-4">
-      <UButton color="warning" @click="navigateTo('/clients')">Go To Clients</UButton>
-      <UButton @click="navigateTo('/assets/form')">Add New Asset</UButton>
+      <UButton
+        color="warning"
+        @click="navigateTo('/clients')"
+      >
+        Go To Clients
+      </UButton>
+      <UButton @click="navigateTo('/assets/form')">
+        Add New Asset
+      </UButton>
     </div>
-    
+
     <UTable
       :data="data"
       :columns="columns"

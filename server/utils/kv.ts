@@ -1,6 +1,6 @@
-export const useKv = async ()=> {
+export const useKv = async () => {
   if (globalThis.Deno) {
-    return globalThis.Deno.openKv();
+    return globalThis.Deno.openKv()
   }
 
   const openKvFactory = () => import('@deno/kv')

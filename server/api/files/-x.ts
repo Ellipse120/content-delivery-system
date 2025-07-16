@@ -8,7 +8,7 @@ const UPLOAD_DIR = join(process.cwd(), appConfig.UPLOAD_DIR)
 
 // Ensure upload directory exists
 if (!existsSync(UPLOAD_DIR)) {
-   mkdir(UPLOAD_DIR, { recursive: true })
+  mkdir(UPLOAD_DIR, { recursive: true })
 }
 
 const getFileInfo = (filename: string): FileInfo | null => {
@@ -19,9 +19,10 @@ const getFileInfo = (filename: string): FileInfo | null => {
       id: filename.split('.')[0],
       filename,
       path: `/uploads/files/${filename}`,
-      createdAt: formatDate(new Date())
+      createdAt: formatDate(new Date()),
     }
-  } catch {
+  }
+  catch {
     return null
   }
 }
@@ -29,13 +30,12 @@ const getFileInfo = (filename: string): FileInfo | null => {
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
 
-  console.log(isMethod(event, "GET"))
+  console.log(isMethod(event, 'GET'))
   console.log(1, event.method, query)
-  setResponseHeader(event, "content-type", "application/json");
+  setResponseHeader(event, 'content-type', 'application/json')
 
   // GET - List files or get single file
-  if (isMethod(event, "GET")) {
-
+  if (isMethod(event, 'GET')) {
     const fileId = query.id as string
     if (fileId) {
       const files = await readdir(UPLOAD_DIR)
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
       if (!file) {
         throw createError({
           statusCode: 404,
-          message: "File not found",
+          message: 'File not found',
         })
       }
       return getFileInfo(file)
@@ -54,18 +54,18 @@ export default defineEventHandler(async (event) => {
   }
 
   // POST - Upload new file
-  if (isMethod(event, "POST")) {
+  if (isMethod(event, 'POST')) {
     const formData = await readMultipartFormData(event)
     if (!formData?.length) {
       throw createError({
         statusCode: 400,
-        message: "No file provided",
+        message: 'No file provided',
       })
     }
 
     const file = formData[0]
     const fileId = randomUUID()
-    const ext = file.filename?.split(".").pop() || ""
+    const ext = file.filename?.split('.').pop() || ''
     const filename = `${fileId}.${ext}`
 
     await writeFile(join(UPLOAD_DIR, filename), file.data)
@@ -74,14 +74,14 @@ export default defineEventHandler(async (event) => {
   }
 
   // DELETE - Remove file
-  if (isMethod(event, "DELETE")) {
+  if (isMethod(event, 'DELETE')) {
     const fileId = query.id as string
-    console.log(fileId, " =fileId")
+    console.log(fileId, ' =fileId')
 
     if (!fileId) {
       throw createError({
         statusCode: 400,
-        message: "File ID is required",
+        message: 'File ID is required',
       })
     }
 
@@ -91,7 +91,7 @@ export default defineEventHandler(async (event) => {
     if (!file) {
       throw createError({
         statusCode: 404,
-        message: "File not found",
+        message: 'File not found',
       })
     }
 
@@ -101,6 +101,6 @@ export default defineEventHandler(async (event) => {
 
   throw createError({
     statusCode: 405,
-    message: "Method not allowed",
+    message: 'Method not allowed',
   })
-}) 
+})

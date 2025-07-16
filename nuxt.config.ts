@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
 
   modules: [
     '@nuxt/eslint',
@@ -11,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/mdc',
     '@vueuse/sound/nuxt',
   ],
+  devtools: { enabled: true },
 
   css: ['~/assets/css/main.css'],
 
@@ -19,7 +19,11 @@ export default defineNuxtConfig({
   },
 
   ui: {
-    fonts: false
+    fonts: false,
+  },
+
+  runtimeConfig: {
+    dingdingWebhooksAccessToken: '',
   },
 
   eslint: {
@@ -29,7 +33,13 @@ export default defineNuxtConfig({
   },
 
   future: {
-    compatibilityVersion: 4
+    compatibilityVersion: 4,
   },
   compatibilityDate: '2024-11-27',
+
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
 })

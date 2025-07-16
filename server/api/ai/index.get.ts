@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   const response = await ollama.chat({
     model: query.modelName ?? 'llama3.2',
     messages: [message],
-    stream: true
+    stream: true,
   })
 
   const stream = new ReadableStream({
@@ -17,11 +17,11 @@ export default defineEventHandler(async (event) => {
         if (part.done) {
           controller.close()
         }
-        
+
         controller.enqueue(part.message.content)
       }
     },
   })
-  
+
   return sendStream(event, stream)
 })

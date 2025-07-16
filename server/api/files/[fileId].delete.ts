@@ -6,14 +6,14 @@ const UPLOAD_DIR = getUploadFoler()
 
 export default defineEventHandler(async (event) => {
   const { fileId } = await getValidatedRouterParams(event, z.object({
-      fileId: z.string().length(36)
+    fileId: z.string().length(36),
   }).parse)
 
   if (!fileId) {
     throw createError({
       statusCode: 400,
       message: 'File ID is required',
-    });
+    })
   }
 
   const files = await readdir(UPLOAD_DIR)
