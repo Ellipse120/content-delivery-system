@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@vueuse/nuxt',
     '@nuxtjs/mdc',
+    '@vueuse/sound/nuxt',
   ],
 
   css: ['~/assets/css/main.css'],
