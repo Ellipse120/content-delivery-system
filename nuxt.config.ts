@@ -22,6 +22,12 @@ export default defineNuxtConfig({
     fonts: false
   },
 
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
+
   future: {
     compatibilityVersion: 4
   },

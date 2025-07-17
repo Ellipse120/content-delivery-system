@@ -10,9 +10,9 @@ export default defineEventHandler(async (event) => {
         isAtAll: true,
       },
       text: {
-        content: `${data.text}`
-      }
-    }
+        content: `${data.text}`,
+      },
+    },
   })
 
   return res

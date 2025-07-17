@@ -14,6 +14,7 @@ async function handleSse() {
       description: `Got sse response: ${event.data}`
     })
     assetIds.value = JSON.parse(event.data)
+    
   }
 }
 
