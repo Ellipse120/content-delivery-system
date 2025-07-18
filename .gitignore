@@ -26,3 +26,4 @@ logs
 kv.db
 kv.db*
 public/uploads/
+ecosystem.config.cjs
