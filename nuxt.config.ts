@@ -14,22 +14,13 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  runtimeConfig: {
-    dingdingWebhooksAccessToken: ''
-  },
-
   ui: {
     fonts: false,
   },
 
   runtimeConfig: {
     dingdingWebhooksAccessToken: '',
-  },
-
-  eslint: {
-    config: {
-      stylistic: true,
-    },
+    hospitalToken: '',
   },
 
   future: {

@@ -139,7 +139,7 @@ export default defineEventHandler(async () => {
 
   const header = {
     ...header1,
-    token: config.hospitalToken || 'ca6138722d5544acba386164e441d650',
+    token: config.hospitalToken,
   }
 
   const r: ResponseFromUnknown = await $fetch(HOST_URL, {
