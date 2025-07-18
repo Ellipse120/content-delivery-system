@@ -58,6 +58,7 @@ const sendNotifyToDingTalk = async (data: R) => {
 }
 
 const targetDate = '2025-07-28'
+const HOST_URL = 'https://h5.wdjky.com/gw/palm-hospital-appointment-resource-scheduling-list'
 const header1 = {
   'accept': 'application/json, text/plain, */*',
   'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
@@ -71,7 +72,7 @@ const header1 = {
   'sec-fetch-mode': 'cors',
   'sec-fetch-site': 'same-origin',
   'timestamp': '1751596212586',
-  'token': '1636c6f45de343cc8f72f6ef6cb19b88',
+  'token': '',
   'user-traceid': '175159621258699883571',
   'cookie': 'acw_tc=0a47329a17515960565847106e007a9013598d2ed59889221bb519cab566f5',
   'Referer': 'https://h5.wdjky.com/healthcloud-smart-service-vue3/outpatient/appointment/schedule?channelCode=210101&hospitalId=b535012fb265470283f4dffcbafaff64&showBottom=home&branchCode=10001&secondDeptCode=3300&resourceType=1&resourceCode=2073&scheduleType=1&scheduleTypeCodeList=7&v=20250701173224&code=041BZ50w38Glb53Fht2w3RXQiY0BZ50f',
@@ -134,9 +135,16 @@ const body2 = {
 }
 
 export default defineEventHandler(async () => {
-  const r: ResponseFromUnknown = await $fetch('https://h5.wdjky.com/gw/palm-hospital-appointment-resource-scheduling-list', {
+  const config = useRuntimeConfig()
+
+  const header = {
+    ...header1,
+    token: config.hospitalToken || 'ca6138722d5544acba386164e441d650',
+  }
+
+  const r: ResponseFromUnknown = await $fetch(HOST_URL, {
     method: 'post',
-    headers: header1,
+    headers: header,
     body: body1,
   })
 

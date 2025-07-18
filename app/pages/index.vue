@@ -22,6 +22,24 @@ const items = ref<NavigationMenuItem[][]>([
         },
       ],
     },
+    {
+      label: 'Misc',
+      icon: 'i-lucide-microscope',
+      children: [
+        {
+          label: '2073 Page',
+          description: 'Fetch doctor scheduling infomation of some special day',
+          icon: 'i-lucide-hospital',
+          to: '/2073',
+        },
+        {
+          label: 'Local Ollama',
+          description: 'Interactive with local ollama, call it\'s embeded API points',
+          icon: 'i-lucide-flask-round',
+          to: '/demo/ollama-chat',
+        },
+      ],
+    },
   ],
 ])
 </script>
