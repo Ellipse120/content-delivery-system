@@ -149,13 +149,15 @@ export default defineEventHandler(async () => {
   })
 
   if (!('data' in r)) {
+    const msg = r.msg || `未知异常${JSON.stringify(r)}`
+
     await sendNotifyToDingTalk({
-      msg: r.msg || 'token失效',
+      msg,
       remainNum: 0,
     })
 
     return {
-      msg: r.msg || '接口出错了',
+      msg,
     }
   }
 
