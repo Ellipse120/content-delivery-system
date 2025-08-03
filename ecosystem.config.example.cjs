@@ -8,6 +8,7 @@ module.exports = {
       script: './.output/server/index.mjs',
       env: {
         NUXT_HOSPITAL_TOKEN: '',
+        NUXT_DINGDING_WEBHOOKS_ACCESS_TOKEN: '',
       },
     },
   ],
