@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxtjs/mdc',
     '@vueuse/sound/nuxt',
+    'reka-ui/nuxt',
   ],
   devtools: { enabled: true },
 

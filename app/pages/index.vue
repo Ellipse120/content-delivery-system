@@ -13,7 +13,7 @@
     </USeparator>
 
     <UButton @click="navigateTo('/demo/ollama-chat')">
-      To Local Ollama Chat Demo Page
+      To Local Ollama Chat Demo Page And Play
     </UButton>
   </div>
 </template>
