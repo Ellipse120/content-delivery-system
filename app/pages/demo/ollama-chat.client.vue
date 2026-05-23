@@ -2,7 +2,7 @@
 const text = shallowRef('')
 
 const question = ref('Hi')
-const chating = ref(false)
+const chatting = ref(false)
 const modelName = ref('')
 const abortController = new AbortController()
 
@@ -14,8 +14,8 @@ const { data: models } = await useLazyFetch('/api/ai/models', {
   },
 })
 
-const toggleChating = () => {
-  chating.value = !chating.value
+const toggleChatting = () => {
+  chatting.value = !chatting.value
 }
 
 defineShortcuts({
@@ -29,7 +29,7 @@ defineShortcuts({
 
 const handleStream = async () => {
   text.value = ''
-  toggleChating()
+  toggleChatting()
   const r = await $fetch.raw('/api/ai', {
     query: {
       message: question.value,
@@ -40,7 +40,7 @@ const handleStream = async () => {
   })
     .catch(() => {})
     .finally(() => {
-      toggleChating()
+      toggleChatting()
     })
 
   const reader = r.body.getReader()
@@ -106,7 +106,7 @@ const abortStream = async () => {
               class="w-48"
             />
             <UButton
-              :loading="chating"
+              :loading="chatting"
               block
               icon="i-lucide-rocket"
               @click="handleStream"

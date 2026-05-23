@@ -29,6 +29,19 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-11-27',
 
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        '@tanstack/vue-table',
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        'debug',
+      ],
+    },
+  },
+
   eslint: {
     config: {
       stylistic: true,
