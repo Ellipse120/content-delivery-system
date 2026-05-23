@@ -47,6 +47,12 @@ const items = ref<NavigationMenuItem[][]>([
           icon: 'i-lucide-cloud-download',
           to: '/assets',
         },
+        {
+          label: 'Raffle Page',
+          description: 'Raffle page, users can enter or import participant information. The raffle is configurable. Results are displayed in 3D.',
+          icon: 'i-lucide-dices',
+          to: '/raffle',
+        },
       ],
     },
     {

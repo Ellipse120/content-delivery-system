@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/mdc',
     '@vueuse/sound/nuxt',
     'reka-ui/nuxt',
+    '@tresjs/nuxt',
   ],
   devtools: { enabled: true },
 
@@ -37,7 +38,12 @@ export default defineNuxtConfig({
         '@tanstack/vue-table',
         '@vue/devtools-core',
         '@vue/devtools-kit',
-        'debug',
+        '@tanstack/vue-table',
+        '@tresjs/cientos',
+        '@tresjs/core',
+        'debug', // CJS
+        'three',
+        'xlsx',
       ],
     },
   },
